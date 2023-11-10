@@ -1,0 +1,41 @@
+{% extends 'mailsender/base.html' %}
+{% block content %}
+
+<div class="col-md-8">
+
+    <div class="container px-4 py-3" id="hanging-icons">
+        <h2 class="pb-2 border-bottom">Сервис рассылок MAILSENDER</h2>
+        <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
+            <div class="col d-flex align-items-start">
+                <div>
+                    <h5>Неограниченное количество рассылок</h5>
+                    <p>Кастомизируйте и создавайте столько рассылок, сколько вам нужно</p>
+                    <a role="button" class="btn btn-primary" href="{% url 'mailsender:mail_list' %}">
+                        Всего рассылок <span class="badge bg-secondary">{{mail_qty}}</span>
+                    </a>
+                </div>
+            </div>
+            <div class="col d-flex align-items-start">
+                <div>
+                    <h5>Контролируемая активация рассылок</h5>
+                    <p>Планируйте и управляйте запуском рассылок, когда вам удобно</p>
+                    <a role="button" class="btn btn-primary" href="{% url 'mailsender:log_report' %}">
+                        Активных рассылок <span class="badge bg-secondary">{{active_mail_qty}}</span>
+                    </a>
+                </div>
+            </div>
+            <div class="col d-flex align-items-start">
+                <div>
+                    <h5>Пул клиентов по категориям</h5>
+                    <p>Управляйте категориями клиентов в зависимости от ваших потребностей</p>
+                    <a role="button" class="btn btn-primary" href="{% url 'recipients:list' %}">
+                        Уникальных клиентов <span class="badge bg-secondary">{{unique_recipients}}</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% include 'blog/includes/inc_blog_recent_posts.html' %}
+
+{% endblock %}

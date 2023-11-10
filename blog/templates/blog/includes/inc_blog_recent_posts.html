@@ -1,0 +1,36 @@
+{% load static %}
+{% load my_tags %}
+
+<div class="col-md-4">
+
+        <div class="row">
+            <div class="col">
+                <h4 class="fst-italic">Наши статьи</h4>
+            </div>
+            <div class="col">
+                <a class="button text-muted text-start" href="{% url 'blog:article_list' %}">все статьи >></a>
+            </div>
+
+        <ul class="list-unstyled">
+            {% for object in object_list %}
+            <li>
+                <a class="d-flex flex-column flex-lg-row gap-3 align-items-start align-items-lg-center py-3 link-body-emphasis text-decoration-none border-top"
+                   href="{% url 'blog:article_detail' object.slug %}">
+
+                    {% if object.preview %}
+                    <img class="bd-placeholder-img" width="80%" height="80%" src="{% mymedia object.preview %}">
+                    {% else %}
+                    <img src="{% static 'article_pic2.jpg' %}">
+                    {% endif %}
+                    <div class="col-lg-8">
+                        <h6 class="mb-0">{{object.title}}</h6>
+                        <p>{{object.content|truncatechars:50}}</p>
+                        <small class="text-body-secondary">{{object.published_at}}</small>
+                    </div>
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+
+    </div>
+</div>

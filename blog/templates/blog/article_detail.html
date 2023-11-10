@@ -1,0 +1,26 @@
+{% extends 'mailsender/base.html' %}
+{% block content %}
+{% load static %}
+{% load my_tags %}
+
+<div class="col-md-8">
+    <div class="row mb-4 px-4">
+        <div class="col d-none d-lg-block">
+            {% if object.preview %}
+            <img class="bd-placeholder-img" src="{% mymedia object.preview %}">
+            {% else %}
+            <img src="{% static 'article_pic2.jpg' %}">
+            {% endif %}
+        </div>
+    </div>
+    <article class="blog-post px-4">
+        <h2 class="display-5 link-body-emphasis mb-1">{{ object.title }}</h2>
+        <p class="blog-post-meta mb-1">{{ object.published_at }}</p>
+        <em class="blog-post-meta"> Просмотры: {{ object.views_count }}</em><br><br>
+
+        <p>{{ object.content }}</p>
+    </article>
+</div>
+{% include 'blog/includes/inc_blog_recent_posts.html' %}
+
+{% endblock %}

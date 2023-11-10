@@ -1,0 +1,51 @@
+{% extends 'mailsender/base.html' %}
+{% block content %}
+{% load static %}
+<div class="container">
+    <div class="row text-start">
+        <div class="row mb-2">
+            <div class="col-12 mb-4">
+                <a class="btn btn-outline-secondary" href="{% url 'mailsender:message_list' %}">К списку сообщений</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="p-1 text-center text-bg">
+    <div class="row g-0 border border-dashed rounded-5 overflow-hidden flex-md-row mb-4 shadow-sm position-relative">
+        <div class="col-2 p-4 d-flex flex-column position-static"></div>
+        <div class="col-7 p-4 d-flex flex-column position-static">
+            <div class="row mb-3">
+                <div class="col-lg-2 text-start"><strong>Заголовок</strong></div>
+                <div class="col-lg-10 text-start">{{ object.title }}</div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-lg-2 text-start"><strong>Содержание</strong></div>
+                <div class="col-lg-10 text-start">{{ object.content }}</div>
+            </div>
+        </div>
+        <div class="col-3 d-none d-lg-block mt-3">
+            <div class="row mb-1 text-start"><strong>Используется в рассылках:</strong>
+                <ul class="text-start">
+                    {% for subject in object.mail_set.all %}
+                    <li>
+                        {{ subject }}
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <div class="d-flex justify-content-between align-items">
+                <div class="btn-group">
+
+                    <a href="{% url 'mailsender:edit_message' object.pk %}" type="button"
+                       class="btn btn-sm btn-outline-secondary">Edit</a>
+
+                    <a href="{% url 'mailsender:delete_message' object.pk %}" type="button"
+                       class="btn btn-sm btn-outline-danger">Delete</a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

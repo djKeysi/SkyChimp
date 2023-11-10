@@ -1,0 +1,43 @@
+{% extends 'mailsender/base.html' %}
+{% block content %}
+{% load static %}
+{% load my_tags %}
+
+<div class="p-4 p-md-1 mb-4 rounded text-body-emphasis bg-body-secondary">
+    <div class="col-sm-12 px-3">
+        <h3 class="display-6 fst-italic text-center"><strong>Знание - великая сила</strong></h3>
+        <p class="lead my-1 text-end fst-italic">и мы хотим поделиться своей силой и накопленным опытом с Вами ...</p>
+    </div>
+</div>
+
+<div class="row mb-2">
+    <div class="row mb-2">
+        {% for object in object_list %}
+        <div class="col-md-6">
+            <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                <div class="col p-4 d-flex flex-column position-static">
+                    <strong class="d-inline-block mb-2 text-muted">Статья</strong>
+                    <h4 class="mb-0">{{ object.title }}</h4>
+                    <em class="mb-2 text-body-muted">
+                        {{ object.published_at }}
+                    </em>
+                    <p class="card-text mb-auto mt-2">{{ object.content|truncatechars:100}}</p>
+                    <a href="{% url 'blog:article_detail' object.slug %}"
+                       class="icon-link gap-1 icon-link-hover stretched-link mt-2">
+                        Читать далее
+                    </a>
+                </div>
+                <div class="col-auto d-none d-lg-block">
+                    {% if object.preview %}
+                    <img src="{% mymedia object.preview %}" width="250" height="250">
+                    {% else %}
+                    <img src="{% static 'article_pic2.jpg' %}" width="250" height="250">
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}
