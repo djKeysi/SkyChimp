@@ -1,10 +1,69 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'mailing/base.html' %}
+{% block content %}
+<div class="container">
+</div>
+<div class="card mb-4">
+    <div class="card-body">
+        <table class="table text-start caption-top">
+            <caption>Отчет по рассылкам</caption>
+            <thead class="table-secondary">
+            <tr>
+                <th>Рассылка</th>
+                <th>Дата/время запуска</th>
+                <th>Статус</th>
+                <th>Периодичность</th>
+                <th>Активность</th>
+                <th>Категории получателей</th>
+            </tr>
+            </thead>
+            {% for object in object_list %}
+            <tr>
+                {% if object.status %}
+                <td><a href="{% url 'mailsender:mail_list' %}" class="link-success">{{ object.mail.title }}</a></td>
+                {% else %}
+                <td><a href="{% url 'mailsender:mail_list' %}" class="link-danger">{{ object.mail.title }}</a></td>
+                {% endif %}
+                <td>{{ object.launched_at }}</td>
+                <td> {% if object.status %} Успешно
+                    {% else %}
+                    <div class="accordion accordion-flush" id="accordionFlushExample">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#flush-collapseOne{{object.pk}}" aria-expanded="false"
+                                        aria-controls="flush-collapseOne{{object.pk}}">Ошибка
+                                </button>
+                            </h2>
+                            <div id="flush-collapseOne{{object.pk}}" class="accordion-collapse collapse"
+                                 data-bs-parent="#accordionFlushExample{{object.pk}}">
+                                {% if object.error_message %}
+                                <div class="accordion-body">
+                                    <strong>Ошибка: </strong> {{ object.error_message }}
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                </td>
+                <td>{{ object.mail.get_frequency_display }}</td>
+                <td>{{ object.mail.get_activity_display }}</td>
+                <td>
+                    <ul>
+                        {% for category in object.mail.category.all %}
+                        <li>
+                            {{ category }}
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <div class="card-footer">
 
-</body>
-</html>
+    </div>
+</div>
+
+{% endblock %}
