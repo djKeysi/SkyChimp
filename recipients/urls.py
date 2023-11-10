@@ -1,33 +1,18 @@
-from django.db import models
+from django.urls import path
 
-NULLABLE = {'blank': True, 'null': True}
+from recipients.apps import RecipientsConfig
+from recipients.views import RecipientCreateView, RecipientListView, RecipientUpdateView, RecipientDeleteView, \
+    CategoryListView, CategoryCreateView, CategoryUpdateView, CategoryDeleteView
 
+app_name = RecipientsConfig.name
+urlpatterns = [
+    path('create/', RecipientCreateView.as_view(), name='create'),
+    path('', RecipientListView.as_view(), name='list'),
+    path('edit/<int:pk>', RecipientUpdateView.as_view(), name='edit'),
+    path('delete/<int:pk>', RecipientDeleteView.as_view(), name='delete'),
 
-class Recipient(models.Model):
-    first_name = models.CharField(max_length=100, verbose_name='имя')
-    last_name = models.CharField(max_length=100, verbose_name='фамилия', **NULLABLE)
-    middle_name = models.CharField(max_length=100, verbose_name='отчество', **NULLABLE)
-    email = models.EmailField(verbose_name='почта')
-    notes = models.TextField(verbose_name='комментарий', **NULLABLE)
-    category = models.ManyToManyField('Category', verbose_name='категория получателя')
-    owner = models.ForeignKey('users.User', on_delete=models.CASCADE, **NULLABLE, verbose_name='владелец')
-
-    def __str__(self):
-        return f'{self.first_name} {self.last_name} ({self.email})'
-
-    class Meta:
-        verbose_name = 'получатель'
-        verbose_name_plural = 'получатели'
-
-
-class Category(models.Model):
-    title = models.CharField(max_length=150, verbose_name='наименование')
-    description = models.TextField(verbose_name='описание', **NULLABLE)
-    owner = models.ForeignKey('users.User', on_delete=models.CASCADE, **NULLABLE, verbose_name='владелец')
-
-    def __str__(self):
-        return f'{self.title}'
-
-    class Meta:
-        verbose_name = 'категория получателей'
-        verbose_name_plural = 'категории получателей'
+    path('view_categories', CategoryListView.as_view(), name='category_list'),
+    path('create_category', CategoryCreateView.as_view(), name='create_category'),
+    path('edit_category/<int:pk>', CategoryUpdateView.as_view(), name='edit_category'),
+    path('delete_category/<int:pk>', CategoryDeleteView.as_view(), name='delete_category'),
+]
