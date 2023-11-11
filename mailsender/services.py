@@ -17,7 +17,6 @@ scheduler = BackgroundScheduler(timezone=settings.TIME_ZONE)
 scheduler.add_jobstore(DjangoJobStore(), "default")
 
 
-# варианты отправки массовых писем со скрытыми адресами https://mailtrap.io/blog/django-send-email/
 def send_message(email, title, message):
     """Отправляет сообщение email"""
     send_mail(
@@ -57,7 +56,7 @@ def delete_old_job_executions(mail_item):
     print('deleted')
     mail_item.activity = 'draft'
     mail_item.save()
-    # DjangoJobExecution.objects.delete_old_job_executions(max_age)
+
 
 
 def get_job_params(mail_item, *new_start_datetime):

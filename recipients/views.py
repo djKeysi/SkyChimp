@@ -38,7 +38,6 @@ class RecipientUpdateView(OwnerRequiredMixin, UpdateView):
     success_url = reverse_lazy('recipients:list')
 
 
-# рассмотреть на будущее: при удалении нужно модифицировать джобу
 class RecipientDeleteView(OwnerRequiredMixin, DeleteView):
     model = Recipient
     success_url = reverse_lazy('recipients:list')
