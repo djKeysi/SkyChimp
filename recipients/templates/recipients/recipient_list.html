@@ -1,0 +1,65 @@
+{% extends 'mailsender/base.html' %}
+{% block content %}
+
+<div class="row mb-2">
+    <div class="col-3 d-none d-lg-block gy-5 mb-4 px-4">
+        <div class="d-flex justify-content-between align-items">
+            <div class="btn-group">
+                <a href="{% url 'recipients:create' %}" type="button"
+                   class="btn btn-sm btn-outline-secondary">Добавить получателя</a>
+                <a href="{% url 'recipients:create_category' %}" type="button"
+                   class="btn btn-sm btn-outline-secondary">Добавить категорию</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <table class="table table-striped">
+            <tr>
+                <th>ФИО</th>
+                <th>Категория</th>
+                <th>Почта</th>
+                <th>Комментарий</th>
+                <th>Действия</th>
+            </tr>
+            {% for object in object_list %}
+            <tr>
+                <td>{{ object.first_name }}
+                    {% if object.middle_name %} {{ object.middle_name }} - {% endif %}
+                    {% if object.last_name %} {{ object.last_name }} - {% endif %}
+                </td>
+                <td>
+                    <ul>
+                        {% for category in object.category.all %}
+                        <li>
+                            {{ category }}
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </td>
+                <td>{{ object.email }}</td>
+                <td>{{ object.notes }}</td>
+                <td>
+                    <div class="col-3 d-none d-lg-block gy-5">
+                        <div class="d-flex justify-content-between align-items">
+                            <div class="btn-group">
+                                <a href="{% url 'recipients:edit' object.pk %}" type="button"
+                                   class="btn btn-sm btn-outline-secondary">Edit</a>
+                                <a href="{% url 'recipients:delete' object.pk %}" type="button"
+                                   class="btn btn-sm btn-outline-danger">Delete</a>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <div class="card-footer">
+
+    </div>
+</div>
+
+{% endblock %}

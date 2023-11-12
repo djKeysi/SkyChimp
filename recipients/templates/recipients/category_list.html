@@ -1,0 +1,65 @@
+{% extends 'mailsender/base.html' %}
+{% block content %}
+<div class="container">
+</div>
+<div class="row mb-2">
+
+    <div class="col-3 d-none d-lg-block gy-5 mb-4 px-4">
+        <div class="d-flex justify-content-between align-items">
+            <div class="btn-group">
+                <a href="{% url 'recipients:create' %}" type="button"
+                   class="btn btn-sm btn-outline-secondary">Добавить получателя</a>
+                <a href="{% url 'recipients:create_category' %}" type="button"
+                   class="btn btn-sm btn-outline-secondary">Добавить категорию</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card mb-4">
+    <div class="card-body">
+        <table class="table text-start">
+
+            <thead class="table-secondary">
+            <tr>
+                <th>Название</th>
+                <th>Описание</th>
+                <th>Категории получателей</th>
+                <th>Действия</th>
+            </tr>
+            </thead>
+            {% for object in object_list %}
+            <tr>
+                <td><a href="{% url 'recipients:edit_category' object.pk %}" class="link-dark">{{ object.title }}</a>
+                </td>
+                <td>{{ object.description }}</td>
+                <td>
+                    <ul>
+                        {% for recipient in object.recipient_set.all %}
+                        <li>
+                            {{ recipient }}
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </td>
+                <td>
+                    <div class="col-3 d-none d-lg-block gy-5">
+                        <div class="d-flex justify-content-between align-items">
+                            <div class="btn-group">
+                                <a href="{% url 'recipients:edit_category' object.pk %}" type="button"
+                                   class="btn btn-sm btn-outline-secondary">Edit</a>
+                                <a href="{% url 'recipients:delete_category' object.pk %}" type="button"
+                                   class="btn btn-sm btn-outline-danger">Delete</a>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <div class="card-footer">
+
+    </div>
+</div>
+
+{% endblock %}
