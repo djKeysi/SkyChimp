@@ -33,7 +33,7 @@ class Mail(models.Model):
         ('ONCE', 'Разово'),
     ]
     title = models.CharField(max_length=100, verbose_name='название рассылки')
-    time = models.TimeField(verbose_name='время отправки')
+    time = models.TimeField(verbose_name='время отправки',default=django.utils.timezone.datetime.now())
     start_date = models.DateField(verbose_name='дата отправки (старта)', default=django.utils.timezone.now)
     stop_date = models.DateField(verbose_name='дата завершения', default=django.utils.timezone.now)
     activity = models.CharField(max_length=100, choices=ACTIVITY_CHOICES, default='draft', verbose_name='активность')
